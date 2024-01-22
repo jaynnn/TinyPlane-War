@@ -1,0 +1,28 @@
+[package]
+name = "bevy_experiments"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[workspace]
+members = [
+    "crates/*",
+]
+
+[dependencies]
+bevy = "0.12.1"
+fly = {path = "crates/fly"}
+rand = "0.8.5"
+
+# Enable a small amount of optimization in debug mode
+[profile.dev]
+opt-level = 1
+
+# Enable high optimizations for dependencies (incl. Bevy), but not for our code:
+[profile.dev.package."*"]
+opt-level = 3
+
+[target.x86_64-pc-windows-msvc]
+linker = "lld-link.exe"
+rustflags = ["-Clinker=lld", "-Zshare-generics=off"]
