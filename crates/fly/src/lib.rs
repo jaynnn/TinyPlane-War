@@ -1,4 +1,4 @@
-use bevy::{prelude::*, utils::info, core::FrameCount};
+use bevy::{core::FrameCount, prelude::*, utils::info};
 use rand::{self, Rng};
 
 pub struct Fly {}
@@ -26,13 +26,20 @@ pub struct Bullet {
 #[derive(Component)]
 pub struct Enemy;
 
+#[derive(Event, Default, Debug)]
+struct EventEnemyDestory(u32);
+
 #[derive(Component)]
 pub struct Hp(pub u32);
+
+#[derive(Component)]
+struct Score(pub u32);
 
 impl Plugin for Fly {
      fn build(&self, app: &mut App) {
         app
             .insert_resource(ClearColor(Color::WHITE))
+            .insert_resource(Events::<EventEnemyDestory>::default())
             .add_plugins(DefaultPlugins.set(WindowPlugin {
                     primary_window: Some(Window {
                         title: "Fly".to_string(),
@@ -50,6 +57,7 @@ impl Plugin for Fly {
                 bullet_update,
                 background_update,
                 collide_update,
+                score_update,
             ));
      }
 }
@@ -61,7 +69,7 @@ fn spawn_background(cmds: &mut Commands, asset_server: &Res<AssetServer>, transf
                 custom_size: Some(Vec2::new(360., 640.)),
                 ..default()
             },
-            texture: asset_server.load("flyback-1.png"),
+            texture: asset_server.load("background/flyback-1.png"),
             transform: transform,
             ..default()
         },
@@ -84,10 +92,27 @@ fn setup(
                 ..default()
             },
             transform: Transform::from_xyz(0., -100., 1.0),
-            texture: asset_server.load("plane.png"),
+            texture: asset_server.load("texture/plane.png"),
             ..default()
         },
         Plane
+    ));
+
+    let font = asset_server.load::<Font>("fonts/Arimo-Regular.ttf");
+    let text_style = TextStyle {
+        font: font.clone(),
+        font_size: 6.18*4.,
+        color: Color::rgba_linear(0., 0.05, 0.35, 0.9),
+    };
+    cmds.spawn((TextBundle::from_sections([
+        TextSection::new("Score: ", text_style.clone()),
+        TextSection::new("0", text_style.clone())
+        ]).with_text_justify(JustifyText::Center)
+        .with_style(Style {
+            position_type: PositionType::Absolute,
+            ..default()
+        }),
+        Score(0),
     ));
 }
 
@@ -96,7 +121,7 @@ const BACKGROUND_EDGE_SIZE: f32 = 10.0;
 fn plane_update(
     mut query: Query<&mut Transform, With<Plane>>,
     query2: Query<&Sprite, With<Plane>>,
-    input: Res<Input<KeyCode>>,
+    input: Res<ButtonInput<KeyCode>>,
     query3: Query<&Sprite, With<BackGround>>,
     mut cmds: Commands,
     fcount: Res<FrameCount>,
@@ -114,22 +139,22 @@ fn plane_update(
     let plane_height = plane_sprite.custom_size.unwrap().y/2.0;
     for key in input.get_pressed() {
         match *key {
-            KeyCode::A => {
+            KeyCode::KeyA => {
                 if plane_transform.translation.x - plane_width - PLANE_MOVE_TRANSLATION > left_edge {
                     plane_transform.translation.x -= PLANE_MOVE_TRANSLATION;
                 }
             }
-            KeyCode::D => {
+            KeyCode::KeyD => {
                 if plane_transform.translation.x + plane_width + PLANE_MOVE_TRANSLATION < right_edge {
                     plane_transform.translation.x += PLANE_MOVE_TRANSLATION;
                 }
             }
-            KeyCode::W => {
+            KeyCode::KeyW => {
                 if plane_transform.translation.y + plane_height + PLANE_MOVE_TRANSLATION < top_edge {
                     plane_transform.translation.y += PLANE_MOVE_TRANSLATION;
                 }
             }
-            KeyCode::S => {
+            KeyCode::KeyS => {
                 if plane_transform.translation.y - plane_height - PLANE_MOVE_TRANSLATION > bottom_edge {
                     plane_transform.translation.y -= PLANE_MOVE_TRANSLATION;
                 }
@@ -183,7 +208,7 @@ fn enemy_update(
                     ..default()
                 },
                 transform: Transform::from_xyz(x, y, 1.),
-                texture: asset_server.load("enemy.png"),
+                texture: asset_server.load("texture/enemy.png"),
                 ..default()
             },
             Enemy,
@@ -215,7 +240,7 @@ fn background_update(
     for e in query.iter() {
         let (mut t, s) = query2.get_mut(e).unwrap();
         let move_inter = time.delta_seconds() * 10.;
-        info((t.translation, move_inter));
+        // info((t.translation, move_inter));
         t.translation.y -= move_inter;
         let height = s.custom_size.unwrap().y;
         if t.translation.y < -height {
@@ -237,6 +262,7 @@ fn collide_update(
     query1: Query<(Entity, &Transform, &Sprite), With<Bullet>>,
     query2: Query<(Entity, &Transform, &Sprite), With<Plane>>,
     query3: Query<(Entity, &Transform, &Sprite), With<Enemy>>,
+    mut event_enemy_destory: EventWriter<EventEnemyDestory>,
 ) {
     for (be, bt, bs) in query1.iter() {
         for (pe, pt, ps) in query3.iter() {
@@ -246,6 +272,7 @@ fn collide_update(
             ) {
                 cmds.entity(be).despawn();
                 cmds.entity(pe).despawn();
+                event_enemy_destory.send(EventEnemyDestory(1));
             }
         }
     }
@@ -259,6 +286,19 @@ fn collide_update(
                 cmds.entity(be).despawn();
                 cmds.entity(pe).despawn();
             }
+        }
+    }
+}
+
+fn score_update(
+    mut event_enemy_destory: EventReader<EventEnemyDestory>,
+    mut query: Query<(&mut Text, &mut Score)>,
+) {
+    for (mut text, mut score) in query.iter_mut() {
+        for add_score in event_enemy_destory.read() {
+            println!("{:?}", add_score.0);
+            score.0 += add_score.0;
+            text.sections[1].value = score.0.to_string();
         }
     }
 }
