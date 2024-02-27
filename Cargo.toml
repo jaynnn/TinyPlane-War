@@ -11,7 +11,7 @@ members = [
 ]
 
 [dependencies]
-bevy = "0.12.1"
+bevy = "0.13.0"
 fly = {path = "crates/fly"}
 rand = "0.8.5"
 
