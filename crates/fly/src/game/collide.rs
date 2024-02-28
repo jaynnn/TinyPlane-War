@@ -1,10 +1,8 @@
 use bevy::prelude::*;
 
-use crate::plane::*;
-use crate::enemy::*;
 use crate::event::*;
-use crate::bullet::*;
 use crate::global::*;
+use crate::game::*;
 
 pub fn collide_update(
     mut cmds: Commands,

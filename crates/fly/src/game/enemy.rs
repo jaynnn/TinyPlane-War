@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use bevy::core::FrameCount;
 use rand::{self, Rng};
 
-use crate::background::*;
+use crate::game::*;
 use crate::global::*;
 
 #[derive(Component)]

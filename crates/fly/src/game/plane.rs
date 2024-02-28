@@ -1,9 +1,8 @@
 use bevy::prelude::*;
 use bevy::core::FrameCount;
 
-use crate::background::*;
 use crate::global::*;
-use crate::bullet::*;
+use crate::game::*;
 
 #[derive(Component)]
 pub struct Plane;
