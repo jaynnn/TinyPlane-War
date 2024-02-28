@@ -1,5 +1,5 @@
-# TinyPlane-War
-# 小型飞机大战
+# TinyPlane-War with bevy
+# 用bevy写的小型飞机大战
 
 TODO:
 1. 销毁特效 
