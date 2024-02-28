@@ -11,7 +11,7 @@ members = [
 ]
 
 [dependencies]
-bevy = "0.13.0"
+bevy = {version = "0.13.0", features = ["mp3"]}
 fly = {path = "crates/fly"}
 rand = "0.8.5"
 
