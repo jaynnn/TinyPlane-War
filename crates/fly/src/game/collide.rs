@@ -4,6 +4,8 @@ use crate::event::*;
 use crate::global::*;
 use crate::game::*;
 
+pub fn collide_setup() {}
+
 pub fn collide_update(
     mut cmds: Commands,
     query1: Query<(Entity, &Transform, &Sprite), With<Bullet>>,

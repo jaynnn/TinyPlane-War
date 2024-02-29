@@ -6,6 +6,8 @@ pub struct Bullet {
     pub acceleration: f32,
 }
 
+pub fn bullet_setup() {}
+
 pub fn bullet_update(
     mut query: Query<(&mut Transform, &mut Bullet)>,
     time: Res<Time>,

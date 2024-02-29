@@ -11,6 +11,8 @@ pub struct Enemy;
 #[derive(Event, Default, Debug)]
 struct EventEnemyDestory(u32);
 
+pub fn enemy_setup() {}
+
 pub fn enemy_update(
     mut cmds: Commands,
     query: Query<&Sprite, With<BackGround>>,

@@ -5,6 +5,7 @@ mod event;
 mod global;
 mod menu;
 mod stat;
+mod audio;
 
 pub use event::*;
 
@@ -31,7 +32,11 @@ impl Plugin for Fly {
                     ..Default::default()
                 }
             ))
-            .add_plugins((stat::game_plugin, stat::menu_plugin))
+            .add_plugins((
+                stat::game_plugin, 
+                stat::menu_plugin,
+                audio::audio_plugin,
+            ))
             .add_systems(Startup, setup);
      }
 }

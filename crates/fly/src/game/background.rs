@@ -3,6 +3,14 @@ use bevy::prelude::*;
 #[derive(Component)]
 pub struct BackGround;
 
+pub fn background_setup(
+    mut cmds: Commands,
+    asset_server: Res<AssetServer>,
+) {
+    spawn_background(&mut cmds, &asset_server, Transform::from_xyz(0., 0., 0.));
+    spawn_background(&mut cmds, &asset_server, Transform::from_xyz(0., 640., 0.));
+}
+
 pub fn spawn_background(cmds: &mut Commands, asset_server: &Res<AssetServer>, transform: Transform) {
     cmds.spawn((
         SpriteBundle {

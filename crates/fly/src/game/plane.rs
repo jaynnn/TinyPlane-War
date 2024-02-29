@@ -7,6 +7,24 @@ use crate::game::*;
 #[derive(Component)]
 pub struct Plane;
 
+pub fn plane_setup(
+    mut cmds: Commands,
+    asset_server: Res<AssetServer>,
+) {
+    cmds.spawn((
+        SpriteBundle {
+            sprite: Sprite {
+                custom_size: Some(Vec2::new(40., 60.)),
+                ..default()
+            },
+            transform: Transform::from_xyz(0., -100., 1.0),
+            texture: asset_server.load("texture/plane.png"),
+            ..default()
+        },
+        Plane
+    ));
+}
+
 pub fn plane_update(
     mut query: Query<&mut Transform, With<Plane>>,
     query2: Query<&Sprite, With<Plane>>,
