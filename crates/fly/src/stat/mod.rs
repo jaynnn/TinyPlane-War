@@ -8,7 +8,7 @@ use bevy::prelude::*;
 
 #[derive(Default, States, Debug, Hash, Eq, PartialEq, Clone)]
 pub enum Stat {
-    Menu,
     #[default]
+    Menu,
     Game,
 }

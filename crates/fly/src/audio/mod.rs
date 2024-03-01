@@ -1,7 +1,19 @@
 use bevy::prelude::*;
 
+use crate::event::*;
+
+#[derive(Component)]
+enum AudioType {
+    BackGround,
+    SoundEffects,
+    SplatSound,
+}
+
 pub fn audio_plugin(app: &mut App) {
-    app.add_systems(Startup, audio_setup);
+    app
+    .insert_resource(Events::<EventAudioChange>::default())
+    .add_systems(Startup, audio_setup)
+    .add_systems(Update, audio_update);
 }
 
 fn audio_setup(
@@ -12,4 +24,10 @@ fn audio_setup(
         source: asset_server.load("sounds/back/normal.mp3"),
         settings: PlaybackSettings::LOOP
     });
+}
+
+fn audio_update(
+    mut event: EventReader<EventAudioChange>,
+) {
+
 }
