@@ -18,7 +18,7 @@ pub fn plane_setup(
                 ..default()
             },
             transform: Transform::from_xyz(0., -100., 1.0),
-            texture: asset_server.load("texture/plane.png"),
+            texture: asset_server.load("images/plane.png"),
             ..default()
         },
         Plane
@@ -75,7 +75,7 @@ pub fn plane_update(
             SpriteBundle {
                 sprite: Sprite {
                     custom_size: Some(Vec2::splat(5.)),
-                    color: Color::BLUE,
+                    color: Color::BLACK,
                     ..default()
                 },
                 transform: Transform::from_xyz(

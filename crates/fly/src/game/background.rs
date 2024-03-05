@@ -18,7 +18,7 @@ pub fn spawn_background(cmds: &mut Commands, asset_server: &Res<AssetServer>, tr
                 custom_size: Some(Vec2::new(360., 640.)),
                 ..default()
             },
-            texture: asset_server.load("background/flyback-1.png"),
+            texture: asset_server.load("images/background/flyback-1.png"),
             transform: transform,
             ..default()
         },

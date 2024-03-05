@@ -9,12 +9,7 @@ mod audio;
 
 pub use event::*;
 
-pub struct Fly {}
-impl Default for Fly {
-    fn default() -> Self {
-        Self {}
-    }
-}
+pub struct Fly;
 
 impl Plugin for Fly {
      fn build(&self, app: &mut App) {

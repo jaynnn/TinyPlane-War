@@ -13,7 +13,7 @@ pub fn score_setup(
     let text_style = TextStyle {
         font: font.clone(),
         font_size: 6.18*4.,
-        color: Color::rgba_linear(0., 0.05, 0.35, 0.9),
+        color: Color::linear_rgba(0., 0.05, 0.35, 0.9),
     };
     cmds.spawn((TextBundle::from_sections([
         TextSection::new("Score:", text_style.clone()),

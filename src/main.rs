@@ -3,6 +3,6 @@ use fly::Fly;
 
 fn main() {
     App::new()
-        .add_plugins(Fly::default())
+        .add_plugins(Fly)
         .run();
 }

@@ -18,6 +18,9 @@ pub enum SettingStat {
     SettingInput,
     SettingGraphic,
 }
+#[derive(Component)]
+enum SettingsButtonAction {
+}
 
 pub fn settings_plugin(app: &mut App) {
     app
