@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use bevy::prelude::*;
 use bevy::core::FrameCount;
 
@@ -87,7 +89,8 @@ pub fn plane_update(
             },
             Bullet {
                 velocity: 100.,
-                acceleration: 150.
+                acceleration: 150.,
+                timer: Timer::new(Duration::from_secs(5), TimerMode::Once),
             }
         ));
     }
