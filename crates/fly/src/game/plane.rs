@@ -34,6 +34,7 @@ pub fn plane_update(
     query3: Query<&Sprite, With<BackGround>>,
     mut cmds: Commands,
     fcount: Res<FrameCount>,
+    asset_server: Res<AssetServer>,
 ) {
     let mut plane_transform = query.get_single_mut().unwrap();
     let plane_sprite = query2.get_single().unwrap();
@@ -77,7 +78,6 @@ pub fn plane_update(
             SpriteBundle {
                 sprite: Sprite {
                     custom_size: Some(Vec2::splat(5.)),
-                    color: Color::BLACK,
                     ..default()
                 },
                 transform: Transform::from_xyz(
@@ -85,6 +85,7 @@ pub fn plane_update(
                     plane_transform.translation.y + plane_height/2. + 2., 
                     plane_transform.translation.z
                 ),
+                texture: asset_server.load("images/bullet.png"),
                 ..default()
             },
             Bullet {
