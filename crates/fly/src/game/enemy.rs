@@ -35,7 +35,7 @@ pub fn enemy_update(
                     ..default()
                 },
                 transform: Transform::from_xyz(x, y, 1.),
-                texture: asset_server.load("images/enemy.png"),
+                texture: asset_server.load("images/enemy2.png"),
                 ..default()
             },
             Enemy,

@@ -20,8 +20,9 @@ impl Plugin for Fly {
             .add_plugins(DefaultPlugins.set(WindowPlugin {
                     primary_window: Some(Window {
                         title: "Fly".to_string(),
-                        resolution: [360., 640.].into(),
+                        resolution: [1080., 1440.].into(),
                         resizable: false,
+                        position: WindowPosition::Centered(MonitorSelection::Primary),
                         ..Default::default()
                     }),
                     ..Default::default()

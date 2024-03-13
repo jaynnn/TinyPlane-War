@@ -11,7 +11,9 @@ members = [
 ]
 
 [dependencies]
-bevy = {path = "E:\\work2\\code\\lang\\rust\\lib\\bevy", features = ["mp3"]}
+bevy = {version = "0.13.0", features = ["mp3"]}
+bevy-inspector-egui = "0.23.4"
+bevy_egui = "0.25.0"
 fly = {path = "crates/fly"}
 rand = "0.8.5"
 
