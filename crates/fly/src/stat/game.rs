@@ -15,7 +15,8 @@ pub fn game_plugin(app: &mut App) {
         score_setup,
     ))
         .add_systems(Update, (
-            plane_update, 
+            plane_update,
+            plane_animate,
             enemy_update, 
             bullet_update,
             background_update,

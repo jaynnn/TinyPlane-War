@@ -8,7 +8,7 @@
 3. 开始界面和暂停界面: Start interface and pause interface
 4. 飞出界面的实体销毁: Entity destruction upon leaving screen
 5. 更多子弹和boss: More bullets and bosses
-6. sprite表加载: Loading sprite sheets
+6. plane的sprite表: plane's sprite sheets ✅
 7. 关卡的概念: Concept of levels/stages
 8. 背景音乐: Background music ✅
 9. 血量: Health

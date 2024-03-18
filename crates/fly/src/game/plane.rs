@@ -7,12 +7,29 @@ use crate::global::*;
 use crate::game::*;
 
 #[derive(Component)]
+struct PlaneAnimateIndies {
+    st: usize,
+    ed: usize,
+}
+
+#[derive(Component)]
 pub struct Plane;
+
+#[derive(Component)]
+pub struct PlaneAnimate {
+    left: PlaneAnimateIndies,
+    right: PlaneAnimateIndies
+}
 
 pub fn plane_setup(
     mut cmds: Commands,
     asset_server: Res<AssetServer>,
+    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
+    let texture_atlas = asset_server.load("images/planeanimate.png");
+    let layout = TextureAtlasLayout::from_grid(Vec2::splat(258.), 2, 4, None, None);
+    let texture_atlas_layout = texture_atlas_layouts.add(layout);
+    let place_animate = PlaneAnimate {left: PlaneAnimateIndies {st: 1, ed: 2}, right :  PlaneAnimateIndies {st: 3, ed: 4}};
     cmds.spawn((
         SpriteBundle {
             sprite: Sprite {
@@ -20,9 +37,14 @@ pub fn plane_setup(
                 ..default()
             },
             transform: Transform::from_xyz(0., -100., 1.0),
-            texture: asset_server.load("images/plane.png"),
+            texture: texture_atlas,
             ..default()
         },
+        TextureAtlas {
+            layout: texture_atlas_layout,
+            index: 0,
+        },
+        place_animate,
         Plane
     ));
 }
@@ -94,5 +116,44 @@ pub fn plane_update(
                 timer: Timer::new(Duration::from_secs(5), TimerMode::Once),
             }
         ));
+    }
+}
+
+pub fn plane_animate(
+    input: Res<ButtonInput<KeyCode>>,
+    mut query: Query<(&mut PlaneAnimate, &mut TextureAtlas), With<Plane>>,
+) {
+    let (indices, mut atlas) = query.single_mut();
+    for key in input.get_just_released() {
+        match *key {
+            KeyCode::KeyA | KeyCode::KeyD => {
+                if atlas.index > 0 {
+                    atlas.index = 0;
+                }
+            },
+            _ => {}
+        }
+    }
+    
+    for key in input.get_pressed() {
+        match *key {
+            KeyCode::KeyA => {
+                if atlas.index < indices.left.ed {
+                    atlas.index += 1;
+                    println!("{}", atlas.index);
+                }
+            },
+            
+            KeyCode::KeyD => {
+                if atlas.index < indices.right.st {
+                    atlas.index = indices.right.st - 1;
+                }
+                if atlas.index < indices.right.ed {
+                    atlas.index += 1;
+                    println!("{}", atlas.index);
+                }
+            },
+            _ => {}
+        }
     }
 }
