@@ -10,8 +10,6 @@ bevy = {version = "0.13.0", features = ["mp3", "dynamic_linking"]}
 bevy_egui = "0.25.0"
 rand = "0.8.5"
 
-
-
 # Enable a small amount of optimization in debug mode
 [profile.dev]
 opt-level = 1
