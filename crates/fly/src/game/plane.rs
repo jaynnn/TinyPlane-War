@@ -140,7 +140,6 @@ pub fn plane_animate(
             KeyCode::KeyA => {
                 if atlas.index < indices.left.ed {
                     atlas.index += 1;
-                    println!("{}", atlas.index);
                 }
             },
             
@@ -150,7 +149,6 @@ pub fn plane_animate(
                 }
                 if atlas.index < indices.right.ed {
                     atlas.index += 1;
-                    println!("{}", atlas.index);
                 }
             },
             _ => {}
