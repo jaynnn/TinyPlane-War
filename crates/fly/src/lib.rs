@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, render::camera::ScalingMode};
 
 mod game;
 mod event;
@@ -40,5 +40,13 @@ impl Plugin for Fly {
 fn setup(
     mut cmds: Commands,
 ) {
-    cmds.spawn(Camera2dBundle::default());
+    let mut camera = Camera2dBundle::default();
+    camera.projection = OrthographicProjection {    
+        far: 1000.,
+        near: -1000.,
+        scaling_mode: ScalingMode::FixedVertical(788.),
+        viewport_origin: Vec2::new(0.7, 0.5),
+        ..default()
+    };
+    cmds.spawn(camera);
 }

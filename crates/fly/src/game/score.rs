@@ -17,7 +17,7 @@ pub fn score_setup(
     };
     cmds.spawn((TextBundle::from_sections([
         TextSection::new("Score:", text_style.clone()),
-        TextSection::new(" 0", text_style.clone())
+        TextSection::new("0", text_style.clone())
         ]).with_text_justify(JustifyText::Center)
         .with_style(Style {
             position_type: PositionType::Absolute,

@@ -43,6 +43,6 @@ pub fn enemy_update(
     }
     for mut t in query2.iter_mut() {
         t.translation.y -= time.delta_seconds() * 100.;
-
+        
     }
 }

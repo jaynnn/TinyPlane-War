@@ -5,6 +5,7 @@ use bevy::core::FrameCount;
 
 use crate::global::*;
 use crate::game::*;
+use crate::stat::GameStat;
 
 #[derive(Component)]
 struct PlaneAnimateIndies {
@@ -57,8 +58,20 @@ pub fn plane_update(
     mut cmds: Commands,
     fcount: Res<FrameCount>,
     asset_server: Res<AssetServer>,
+    state: Res<State<GameStat>>,
+    mut next_state: ResMut<NextState<GameStat>>,
 ) {
-    let mut plane_transform = query.get_single_mut().unwrap();
+    let plane_transform_res = query.get_single_mut();
+    if plane_transform_res.is_err() {
+        match state.get() {
+            GameStat::Gamming => {
+                next_state.set(GameStat::GameOver)
+            }
+            _ => {}
+        }
+        return;
+    }
+    let mut plane_transform = plane_transform_res.unwrap();
     let plane_sprite = query2.get_single().unwrap();
     let background_sprite = query3.iter().next().unwrap();
     let width = background_sprite.custom_size.unwrap().x;
@@ -123,6 +136,10 @@ pub fn plane_animate(
     input: Res<ButtonInput<KeyCode>>,
     mut query: Query<(&mut PlaneAnimate, &mut TextureAtlas), With<Plane>>,
 ) {
+    let plane_res = query.get_single_mut();
+    if plane_res.is_err() {
+        return;
+    }
     let (indices, mut atlas) = query.single_mut();
     for key in input.get_just_released() {
         match *key {
