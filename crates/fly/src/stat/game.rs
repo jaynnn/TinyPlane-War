@@ -14,6 +14,9 @@ pub enum GameStat {
     GameOver,
 }
 
+#[derive(Component)]
+struct GameOverText;
+
 pub fn game_plugin(app: &mut App) {
     app
     .init_state::<GameStat>()
@@ -70,16 +73,20 @@ fn game_over_setup(
     asset_server: Res<AssetServer>,
 ) {
     let camera_tansform = query_camera.single();
-    cmds.spawn((Text2dBundle {
-        text: Text::from_section("PRESS SPACE TO CONTINUE", TextStyle {
-            font: asset_server.load("fonts/ARCADECLASSIC.ttf"),
-            color: Color::rgba_u8(10, 19, 47, 255),
-            font_size: 18.,
+    cmds.spawn((
+        Text2dBundle {
+            text: Text::from_section("PRESS SPACE TO CONTINUE", TextStyle {
+                font: asset_server.load("fonts/ARCADECLASSIC.ttf"),
+                color: Color::rgba_u8(10, 19, 47, 255),
+                font_size: 18.,
+                ..default()
+            }),
+            transform: *camera_tansform,
             ..default()
-        }),
-        transform: *camera_tansform,
-        ..default()
-    }, TextBlink(Timer::from_seconds(0.382, TimerMode::Repeating))));
+        }, 
+        TextBlink(Timer::from_seconds(0.382, TimerMode::Repeating)),
+        GameOverText,
+    ));
 }
 
 fn game_over(
@@ -88,12 +95,14 @@ fn game_over(
     query_enemy: Query<Entity, With<Enemy>>,
     query_bullet: Query<Entity, With<Bullet>>,
     query_score: Query<Entity, With<Score>>,
+    query_game_over_text: Query<Entity, With<GameOverText>>,
     mut next_state: ResMut<NextState<GameStat>>,
 ) {
     if input.just_pressed(KeyCode::Space) {
         despawn_entities_recursive::<Enemy>(&mut cmds, query_enemy);
         despawn_entities_recursive::<Bullet>(&mut cmds, query_bullet);
         despawn_entities_recursive::<Score>(&mut cmds, query_score);
+        despawn_entities_recursive::<GameOverText>(&mut cmds, query_game_over_text);
         next_state.set(GameStat::Gamming);
     }
 
