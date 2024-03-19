@@ -72,16 +72,17 @@ fn game_over_setup(
     query_camera: Query<&Transform, With<Camera2d>>,
     asset_server: Res<AssetServer>,
 ) {
-    let camera_tansform = query_camera.single();
+    let mut camera_tansform = query_camera.single().clone();
+    camera_tansform.translation.z = 1.;
     cmds.spawn((
         Text2dBundle {
             text: Text::from_section("PRESS SPACE TO CONTINUE", TextStyle {
                 font: asset_server.load("fonts/ARCADECLASSIC.ttf"),
-                color: Color::rgba_u8(10, 19, 47, 255),
+                color: Color::GREEN,
                 font_size: 18.,
                 ..default()
             }),
-            transform: *camera_tansform,
+            transform: camera_tansform,
             ..default()
         }, 
         TextBlink(Timer::from_seconds(0.382, TimerMode::Repeating)),
