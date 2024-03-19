@@ -6,6 +6,7 @@ mod global;
 mod menu;
 mod stat;
 mod audio;
+mod helper;
 
 pub use event::*;
 
@@ -33,7 +34,10 @@ impl Plugin for Fly {
                 stat::menu_plugin,
                 audio::audio_plugin,
             ))
-            .add_systems(Startup, setup);
+            .add_systems(Startup, setup)
+            .add_systems(Update, (
+                helper::text_blink,
+            ));
      }
 }
 

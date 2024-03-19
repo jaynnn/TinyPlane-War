@@ -6,7 +6,7 @@ mod plane;
 mod score;
 mod bullet;
 
-pub use attitude::*;
+// pub use attitude::*;
 pub use background::*;
 pub use collide::*;
 pub use enemy::*;

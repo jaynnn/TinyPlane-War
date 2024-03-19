@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use bevy::{ecs::query, prelude::*};
 
 use crate::event::*;
 
