@@ -1,4 +1,6 @@
 use bevy::{prelude::*, render::camera::ScalingMode};
+use bevy::log::LogPlugin;
+use bevy::utils::tracing::Level;
 
 mod game;
 mod event;
@@ -29,6 +31,11 @@ impl Plugin for Fly {
                     ..Default::default()
                 }
             ))
+            .add_plugins(LogPlugin {
+                level: Level::TRACE,
+                filter: "".to_string(),
+                ..default()
+            })
             .add_plugins((
                 stat::game_plugin, 
                 stat::menu_plugin,
