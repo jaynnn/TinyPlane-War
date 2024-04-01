@@ -2,7 +2,7 @@
 # 用bevy写的小型飞机大战
 
 <div style="text-align:center;">
-    <img src="_other/output.gif.gif" width="200"/>
+    <img src="https://github.com/jaynnn/TinyPlane-War/blob/main/_other/output.gif" width="200"/>
 </div>
 
 
