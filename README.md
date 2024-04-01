@@ -1,6 +1,11 @@
 # TinyPlane-War with bevy
 # 用bevy写的小型飞机大战
 
+<div style="text-align:center;">
+    ![Alt Text](_other/output.gif.gif)
+</div>
+
+
 # TODO:
 ( Translate by chatgpt, so may not be very suitable. :) )
 1. 销毁特效: Destruction effects

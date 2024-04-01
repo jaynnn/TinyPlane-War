@@ -30,12 +30,11 @@ impl Plugin for Fly {
                     }),
                     ..Default::default()
                 }
-            ))
-            .add_plugins(LogPlugin {
+            ).set(LogPlugin {
                 level: Level::TRACE,
                 filter: "".to_string(),
                 ..default()
-            })
+            }))
             .add_plugins((
                 stat::game_plugin, 
                 stat::menu_plugin,

@@ -33,7 +33,6 @@ pub fn score_update(
 ) {
     for (mut text, mut score) in query.iter_mut() {
         for add_score in event_enemy_destory.read() {
-            // println!("{:?}", add_score.0);
             score.0 += add_score.0;
             text.sections[1].value = score.0.to_string();
         }
